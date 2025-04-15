@@ -30,7 +30,8 @@ app.post('/upload', upload.single('image'), (req, res) => {
   const pythonScriptPath = path.join(__dirname, '../python-ml/color_extractor.py');
 
   // Spawn a new Python process with the correct interpreter
-  const pythonProcess = spawn('/Users/praveen/Desktop/mlProjects/colorpalater/python-ml/venv/bin/python', [pythonScriptPath, imagePath, '5']); // 5 is the number of colors
+ const pythonProcess = spawn('python3', [pythonScriptPath, imagePath, '5']);
+; // 5 is the number of colors
 
   // Collect the output from the Python script
   let output = '';
