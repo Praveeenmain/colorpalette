@@ -3,6 +3,7 @@ import json
 from sklearn.cluster import KMeans
 from PIL import Image
 import numpy as np
+import os
 
 def extract_colors(image_path, num_colors=10):
     # Load image
@@ -25,11 +26,28 @@ def extract_colors(image_path, num_colors=10):
     return hex_colors
 
 if __name__ == "__main__":
+    # Ensure the script is passed the required arguments
+    if len(sys.argv) < 3:
+        print("Error: Missing arguments. Please provide both image path and the number of colors.")
+        sys.exit(1)  # Exit with an error code
+
     # Image path from command line
     image_path = sys.argv[1]
     
+    # Ensure the image file exists
+    if not os.path.exists(image_path):
+        print(f"Error: Image file at {image_path} does not exist.")
+        sys.exit(1)
+
+    # Get number of colors (default to 10 if not provided)
+    try:
+        num_colors = int(sys.argv[2])
+    except ValueError:
+        print("Error: The number of colors must be an integer.")
+        sys.exit(1)
+
     # Get colors
-    dominant_colors = extract_colors(image_path)
+    dominant_colors = extract_colors(image_path, num_colors)
 
     # Return as JSON to Node
     print(json.dumps(dominant_colors))
